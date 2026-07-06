@@ -1,17 +1,17 @@
 // Hard-coded millage rates for all municipalities
 const RATES = {
     bath: {
-        current: 3.5348,  // Current Bath Township rate (mills per $1,000)
-        proposed: 5.0000  // Proposed Bath Township rate (mills per $1,000)
+        current: 8.1815,  // Current Bath Township rate (mills per $1,000)
+        proposed: 9.6467  // Proposed Bath Township rate (mills per $1,000)
     },
     dewittTwp: {
-        current: 3.4500   // DeWitt Township current rate (mills per $1,000)
+        current: 7.381   // DeWitt Township current rate (mills per $1,000)
     },
     dewittCity: {
-        current: 4.2000   // DeWitt City current rate (mills per $1,000)
+        current: 13.9593  // DeWitt City current rate (mills per $1,000)
     },
     meridian: {
-        current: 3.8750   // Meridian Township current rate (mills per $1,000)
+        current: 12.213   // Meridian Township current rate (mills per $1,000)
     }
 };
 
