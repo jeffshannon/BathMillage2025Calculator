@@ -10,7 +10,7 @@
     <div class="container">
         <header>
             <h1>Bath Millage 2026 Calculator</h1>
-            <p class="subtitle">Calculate your property tax difference for the proposed millage increase</p>
+            <p class="subtitle">See how the Bath Township millage increase compares to other local municipalities</p>
         </header>
 
         <div class="calculator">
@@ -26,166 +26,82 @@
                 <small class="help-text">Enter your home's assessed/taxable value</small>
             </div>
 
-            <div class="rates-section">
-                <h2>Millage Rates - Fill in rates for each municipality</h2>
-                
-                <div class="municipality-group">
-                    <div class="municipality-header">
-                        <h3>Bath Township</h3>
-                    </div>
-                    <div class="rate-box">
-                        <label for="bathCurrentRate">Current Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="bathCurrentRate" 
-                            placeholder="e.g., 3.5348" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                    
-                    <div class="rate-box">
-                        <label for="bathProposedRate">Proposed Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="bathProposedRate" 
-                            placeholder="e.g., 5.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                </div>
-
-                <div class="municipality-group">
-                    <div class="municipality-header">
-                        <h3>DeWitt Township</h3>
-                    </div>
-                    <div class="rate-box">
-                        <label for="dewittTwpCurrentRate">Current Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="dewittTwpCurrentRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                    
-                    <div class="rate-box">
-                        <label for="dewittTwpProposedRate">Proposed Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="dewittTwpProposedRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                </div>
-
-                <div class="municipality-group">
-                    <div class="municipality-header">
-                        <h3>DeWitt City</h3>
-                    </div>
-                    <div class="rate-box">
-                        <label for="dewittCityCurrentRate">Current Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="dewittCityCurrentRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                    
-                    <div class="rate-box">
-                        <label for="dewittCityProposedRate">Proposed Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="dewittCityProposedRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                </div>
-
-                <div class="municipality-group">
-                    <div class="municipality-header">
-                        <h3>Meridian Township</h3>
-                    </div>
-                    <div class="rate-box">
-                        <label for="meridianCurrentRate">Current Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="meridianCurrentRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                    
-                    <div class="rate-box">
-                        <label for="meridianProposedRate">Proposed Millage Rate</label>
-                        <input 
-                            type="number" 
-                            id="meridianProposedRate" 
-                            placeholder="e.g., 0.0000" 
-                            step="0.0001"
-                        >
-                        <small class="rate-label">mills per $1,000 of value</small>
-                    </div>
-                </div>
+            <div class="info-box">
+                <h3>Current Bath Township Millage Rate</h3>
+                <p class="rate-display" id="currentBathRate">Loading...</p>
+                <small>mills per $1,000 of taxable value</small>
             </div>
 
+            <div class="info-box highlight">
+                <h3>Proposed Bath Township Millage Rate</h3>
+                <p class="rate-display proposed" id="proposedBathRate">Loading...</p>
+                <small>mills per $1,000 of taxable value</small>
+            </div>
+
+            <button id="calculateBtn" class="calculate-btn">Calculate Tax Impact</button>
+            <button id="resetBtn" class="reset-btn">Reset</button>
+
             <div class="results-section" id="resultsSection" style="display: none;">
-                <h2>Tax Impact Comparison</h2>
-                
+                <div class="result-box">
+                    <span class="result-label">Current Annual Tax (Bath Township):</span>
+                    <span class="result-amount" id="currentTax">$0.00</span>
+                </div>
+
+                <div class="result-box">
+                    <span class="result-label">Proposed Annual Tax (Bath Township):</span>
+                    <span class="result-amount" id="proposedTax">$0.00</span>
+                </div>
+
+                <div class="result-box highlight">
+                    <span class="result-label">Annual Difference:</span>
+                    <span class="result-amount difference" id="annualDifference">$0.00</span>
+                </div>
+
+                <div class="result-box">
+                    <span class="result-label">Monthly Difference:</span>
+                    <span class="result-amount" id="monthlyDifference">$0.00</span>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; text-align: center; color: #333;">How This Compares to Other Municipalities</h3>
+
                 <div class="comparison-table">
                     <div class="comparison-row header-row">
                         <div class="comparison-cell">Municipality</div>
-                        <div class="comparison-cell">Current Annual Tax</div>
-                        <div class="comparison-cell">Proposed Annual Tax</div>
-                        <div class="comparison-cell">Annual Difference</div>
-                        <div class="comparison-cell">Monthly Difference</div>
+                        <div class="comparison-cell">Current Millage Rate</div>
+                        <div class="comparison-cell">Your Annual Tax</div>
                     </div>
 
-                    <div class="comparison-row" id="bathRow">
-                        <div class="comparison-cell"><strong>Bath Township</strong></div>
-                        <div class="comparison-cell" id="bathCurrentTax">$0.00</div>
-                        <div class="comparison-cell" id="bathProposedTax">$0.00</div>
-                        <div class="comparison-cell" id="bathDifference">$0.00</div>
-                        <div class="comparison-cell" id="bathMonthly">$0.00</div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell"><strong>Bath Township (Current)</strong></div>
+                        <div class="comparison-cell" id="bathCurrentRate">-</div>
+                        <div class="comparison-cell" id="bathCurrentTaxComp">-</div>
                     </div>
 
-                    <div class="comparison-row" id="dewittTwpRow">
+                    <div class="comparison-row highlight-row">
+                        <div class="comparison-cell"><strong>Bath Township (Proposed)</strong></div>
+                        <div class="comparison-cell" id="bathProposedRate">-</div>
+                        <div class="comparison-cell" id="bathProposedTaxComp">-</div>
+                    </div>
+
+                    <div class="comparison-row">
                         <div class="comparison-cell"><strong>DeWitt Township</strong></div>
-                        <div class="comparison-cell" id="dewittTwpCurrentTax">$0.00</div>
-                        <div class="comparison-cell" id="dewittTwpProposedTax">$0.00</div>
-                        <div class="comparison-cell" id="dewittTwpDifference">$0.00</div>
-                        <div class="comparison-cell" id="dewittTwpMonthly">$0.00</div>
+                        <div class="comparison-cell" id="dewittTwpRate">-</div>
+                        <div class="comparison-cell" id="dewittTwpTax">-</div>
                     </div>
 
-                    <div class="comparison-row" id="dewittCityRow">
+                    <div class="comparison-row">
                         <div class="comparison-cell"><strong>DeWitt City</strong></div>
-                        <div class="comparison-cell" id="dewittCityCurrentTax">$0.00</div>
-                        <div class="comparison-cell" id="dewittCityProposedTax">$0.00</div>
-                        <div class="comparison-cell" id="dewittCityDifference">$0.00</div>
-                        <div class="comparison-cell" id="dewittCityMonthly">$0.00</div>
+                        <div class="comparison-cell" id="dewittCityRate">-</div>
+                        <div class="comparison-cell" id="dewittCityTax">-</div>
                     </div>
 
-                    <div class="comparison-row" id="meridianRow">
+                    <div class="comparison-row">
                         <div class="comparison-cell"><strong>Meridian Township</strong></div>
-                        <div class="comparison-cell" id="meridianCurrentTax">$0.00</div>
-                        <div class="comparison-cell" id="meridianProposedTax">$0.00</div>
-                        <div class="comparison-cell" id="meridianDifference">$0.00</div>
-                        <div class="comparison-cell" id="meridianMonthly">$0.00</div>
+                        <div class="comparison-cell" id="meridianRate">-</div>
+                        <div class="comparison-cell" id="meridianTax">-</div>
                     </div>
                 </div>
             </div>
-
-            <button id="calculateBtn" class="calculate-btn">Calculate</button>
-            <button id="resetBtn" class="reset-btn">Reset</button>
         </div>
 
         <footer class="info-section">
