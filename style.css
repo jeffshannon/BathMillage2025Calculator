@@ -20,7 +20,7 @@ body {
     background: white;
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
+    max-width: 700px;
     width: 100%;
     overflow: hidden;
 }
@@ -80,19 +80,7 @@ input[type="number"]:focus {
     font-size: 12px;
 }
 
-.rates-section {
-    margin-bottom: 30px;
-}
-
-.rates-section h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.municipality-group {
+.info-box {
     background: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
@@ -100,97 +88,42 @@ input[type="number"]:focus {
     border-left: 4px solid #667eea;
 }
 
-.municipality-header {
-    margin-bottom: 15px;
-}
-
-.municipality-header h3 {
-    font-size: 16px;
+.info-box h3 {
+    font-size: 14px;
     font-weight: 600;
     color: #333;
-    margin: 0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.rate-box {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.rate-box:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.rate-label {
+.info-box small {
     display: block;
     color: #999;
     font-size: 12px;
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
-.results-section {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+.info-box.highlight {
+    background: #f0f4ff;
+    border-left-color: #d32f2f;
 }
 
-.results-section h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow-x: auto;
-}
-
-.comparison-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    padding: 12px 0;
-    border-bottom: 1px solid #e0e0e0;
-    align-items: center;
-}
-
-.comparison-row:last-child {
-    border-bottom: none;
-}
-
-.comparison-row.header-row {
-    background: #e8eaf6;
-    padding: 12px;
-    font-weight: 600;
+.rate-display {
+    font-size: 24px;
+    font-weight: 700;
     color: #667eea;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    margin: 8px 0;
 }
 
-.comparison-cell {
-    text-align: center;
-    font-size: 14px;
-}
-
-.comparison-cell:first-child {
-    text-align: left;
-    font-weight: 500;
-    color: #333;
-}
-
-.comparison-row.header-row .comparison-cell:first-child {
-    text-align: left;
+.rate-display.proposed {
+    color: #d32f2f;
 }
 
 .button-group {
     display: flex;
     gap: 12px;
+    margin-bottom: 30px;
 }
 
 .calculate-btn,
@@ -203,6 +136,9 @@ input[type="number"]:focus {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .calculate-btn {
@@ -222,10 +158,106 @@ input[type="number"]:focus {
 .reset-btn {
     background: #e0e0e0;
     color: #333;
+    margin-bottom: 0;
 }
 
 .reset-btn:hover {
     background: #d0d0d0;
+}
+
+.results-section {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.result-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.result-box:last-child {
+    border-bottom: none;
+}
+
+.result-box.highlight {
+    background: #f0f4ff;
+    padding: 16px;
+    border-radius: 6px;
+    border: none;
+    margin: 20px 0;
+}
+
+.result-label {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.result-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.result-amount.difference {
+    font-size: 22px;
+    color: #d32f2f;
+}
+
+.comparison-table {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+}
+
+.comparison-row:last-child {
+    border-bottom: none;
+}
+
+.comparison-row.header-row {
+    background: #e8eaf6;
+    padding: 12px;
+    font-weight: 600;
+    color: #667eea;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.comparison-row.highlight-row {
+    background: #fff3e0;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+}
+
+.comparison-cell {
+    text-align: center;
+    font-size: 13px;
+}
+
+.comparison-cell:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: #333;
+}
+
+.comparison-row.header-row .comparison-cell:first-child,
+.comparison-row.highlight-row .comparison-cell:first-child {
+    text-align: left;
 }
 
 .info-section {
@@ -239,6 +271,7 @@ input[type="number"]:focus {
     font-size: 13px;
     color: #666;
     line-height: 1.6;
+    margin: 0;
 }
 
 .info-text a {
@@ -266,12 +299,10 @@ input[type="number"]:focus {
         padding: 30px 20px;
     }
 
-    .rates-section {
-        grid-template-columns: 1fr;
-    }
-
-    .button-group {
-        flex-direction: column;
+    .calculate-btn,
+    .reset-btn {
+        font-size: 14px;
+        padding: 12px 16px;
     }
 
     .comparison-row {
@@ -279,7 +310,11 @@ input[type="number"]:focus {
         font-size: 12px;
     }
 
-    .comparison-cell {
-        text-align: left;
+    .result-amount {
+        font-size: 16px;
+    }
+
+    .result-amount.difference {
+        font-size: 18px;
     }
 }

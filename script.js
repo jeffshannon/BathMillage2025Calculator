@@ -1,40 +1,17 @@
-// Millage rate inputs for multiple municipalities
-const municipalities = {
+// Hard-coded millage rates for all municipalities
+const RATES = {
     bath: {
-        name: 'Bath Township',
-        currentRateInput: 'bathCurrentRate',
-        proposedRateInput: 'bathProposedRate',
-        currentTaxDisplay: 'bathCurrentTax',
-        proposedTaxDisplay: 'bathProposedTax',
-        differenceDisplay: 'bathDifference',
-        monthlyDisplay: 'bathMonthly'
+        current: 3.5348,  // Current Bath Township rate (mills per $1,000)
+        proposed: 5.0000  // Proposed Bath Township rate (mills per $1,000)
     },
     dewittTwp: {
-        name: 'DeWitt Township',
-        currentRateInput: 'dewittTwpCurrentRate',
-        proposedRateInput: 'dewittTwpProposedRate',
-        currentTaxDisplay: 'dewittTwpCurrentTax',
-        proposedTaxDisplay: 'dewittTwpProposedTax',
-        differenceDisplay: 'dewittTwpDifference',
-        monthlyDisplay: 'dewittTwpMonthly'
+        current: 3.4500   // DeWitt Township current rate (mills per $1,000)
     },
     dewittCity: {
-        name: 'DeWitt City',
-        currentRateInput: 'dewittCityCurrentRate',
-        proposedRateInput: 'dewittCityProposedRate',
-        currentTaxDisplay: 'dewittCityCurrentTax',
-        proposedTaxDisplay: 'dewittCityProposedTax',
-        differenceDisplay: 'dewittCityDifference',
-        monthlyDisplay: 'dewittCityMonthly'
+        current: 4.2000   // DeWitt City current rate (mills per $1,000)
     },
     meridian: {
-        name: 'Meridian Township',
-        currentRateInput: 'meridianCurrentRate',
-        proposedRateInput: 'meridianProposedRate',
-        currentTaxDisplay: 'meridianCurrentTax',
-        proposedTaxDisplay: 'meridianProposedTax',
-        differenceDisplay: 'meridianDifference',
-        monthlyDisplay: 'meridianMonthly'
+        current: 3.8750   // Meridian Township current rate (mills per $1,000)
     }
 };
 
@@ -44,8 +21,9 @@ const calculateBtn = document.getElementById('calculateBtn');
 const resetBtn = document.getElementById('resetBtn');
 const resultsSection = document.getElementById('resultsSection');
 
-// Initialize
+// Display rates on page load
 document.addEventListener('DOMContentLoaded', function() {
+    displayRates();
     taxableValueInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             calculate();
@@ -53,7 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Calculate taxes for all municipalities
+// Display the current and proposed rates
+function displayRates() {
+    document.getElementById('currentBathRate').textContent = RATES.bath.current.toFixed(4) + ' mills';
+    document.getElementById('proposedBathRate').textContent = RATES.bath.proposed.toFixed(4) + ' mills';
+}
+
+// Calculate tax differences
 function calculate() {
     const taxableValue = parseFloat(taxableValueInput.value);
 
@@ -63,51 +47,46 @@ function calculate() {
         return;
     }
 
-    // Check if any rates have been entered
-    let anyRateEntered = false;
-    for (let key in municipalities) {
-        const currentRate = parseFloat(document.getElementById(municipalities[key].currentRateInput).value) || 0;
-        const proposedRate = parseFloat(document.getElementById(municipalities[key].proposedRateInput).value) || 0;
-        if (currentRate > 0 || proposedRate > 0) {
-            anyRateEntered = true;
-            break;
-        }
+    // Calculate Bath Township taxes
+    const currentBathTax = (taxableValue / 1000) * RATES.bath.current;
+    const proposedBathTax = (taxableValue / 1000) * RATES.bath.proposed;
+    const annualDifference = proposedBathTax - currentBathTax;
+    const monthlyDifference = annualDifference / 12;
+
+    // Display Bath Township results
+    document.getElementById('currentTax').textContent = formatCurrency(currentBathTax);
+    document.getElementById('proposedTax').textContent = formatCurrency(proposedBathTax);
+    document.getElementById('annualDifference').textContent = formatCurrency(annualDifference);
+    document.getElementById('monthlyDifference').textContent = formatCurrency(monthlyDifference);
+
+    // Update difference color
+    const differenceElement = document.getElementById('annualDifference');
+    if (annualDifference > 0) {
+        differenceElement.style.color = '#d32f2f'; // Red for increase
+    } else if (annualDifference < 0) {
+        differenceElement.style.color = '#388e3c'; // Green for decrease
+    } else {
+        differenceElement.style.color = '#666'; // Gray for no change
     }
 
-    if (!anyRateEntered) {
-        alert('Please enter at least one millage rate to calculate');
-        return;
-    }
+    // Calculate and display comparison taxes
+    const dewittTwpTax = (taxableValue / 1000) * RATES.dewittTwp.current;
+    const dewittCityTax = (taxableValue / 1000) * RATES.dewittCity.current;
+    const meridianTax = (taxableValue / 1000) * RATES.meridian.current;
 
-    // Calculate for each municipality
-    for (let key in municipalities) {
-        const muni = municipalities[key];
-        const currentRate = parseFloat(document.getElementById(muni.currentRateInput).value) || 0;
-        const proposedRate = parseFloat(document.getElementById(muni.proposedRateInput).value) || 0;
+    // Update comparison table
+    document.getElementById('bathCurrentRate').textContent = RATES.bath.current.toFixed(4);
+    document.getElementById('bathCurrentTaxComp').textContent = formatCurrency(currentBathTax);
+    document.getElementById('bathProposedRate').textContent = RATES.bath.proposed.toFixed(4);
+    document.getElementById('bathProposedTaxComp').textContent = formatCurrency(proposedBathTax);
+    document.getElementById('dewittTwpRate').textContent = RATES.dewittTwp.current.toFixed(4);
+    document.getElementById('dewittTwpTax').textContent = formatCurrency(dewittTwpTax);
+    document.getElementById('dewittCityRate').textContent = RATES.dewittCity.current.toFixed(4);
+    document.getElementById('dewittCityTax').textContent = formatCurrency(dewittCityTax);
+    document.getElementById('meridianRate').textContent = RATES.meridian.current.toFixed(4);
+    document.getElementById('meridianTax').textContent = formatCurrency(meridianTax);
 
-        // Calculate annual taxes
-        const currentTax = (taxableValue / 1000) * currentRate;
-        const proposedTax = (taxableValue / 1000) * proposedRate;
-        const annualDifference = proposedTax - currentTax;
-        const monthlyDifference = annualDifference / 12;
-
-        // Display results
-        document.getElementById(muni.currentTaxDisplay).textContent = formatCurrency(currentTax);
-        document.getElementById(muni.proposedTaxDisplay).textContent = formatCurrency(proposedTax);
-        document.getElementById(muni.differenceDisplay).textContent = formatCurrency(annualDifference);
-        document.getElementById(muni.monthlyDisplay).textContent = formatCurrency(monthlyDifference);
-
-        // Update difference color based on positive/negative
-        const differenceCell = document.getElementById(muni.differenceDisplay);
-        if (annualDifference > 0) {
-            differenceCell.style.color = '#d32f2f'; // Red for increase
-        } else if (annualDifference < 0) {
-            differenceCell.style.color = '#388e3c'; // Green for decrease
-        } else {
-            differenceCell.style.color = '#666'; // Gray for no change
-        }
-    }
-
+    // Show results
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -116,13 +95,6 @@ function calculate() {
 function reset() {
     taxableValueInput.value = '';
     resultsSection.style.display = 'none';
-    
-    // Clear all rate inputs
-    for (let key in municipalities) {
-        document.getElementById(municipalities[key].currentRateInput).value = '';
-        document.getElementById(municipalities[key].proposedRateInput).value = '';
-    }
-    
     taxableValueInput.focus();
 }
 
