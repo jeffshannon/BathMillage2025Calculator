@@ -12,6 +12,9 @@ const RATES = {
     },
     meridian: {
         current: 12.213   // Meridian Township current rate (mills per $1,000)
+    },
+        EastLansingCity: {
+        current: 14.5302   // Meridian Township current rate (mills per $1,000)
     }
 };
 
@@ -73,6 +76,7 @@ function calculate() {
     const dewittTwpTax = (taxableValue / 1000) * RATES.dewittTwp.current;
     const dewittCityTax = (taxableValue / 1000) * RATES.dewittCity.current;
     const meridianTax = (taxableValue / 1000) * RATES.meridian.current;
+    const ELCityTax = (taxableValue / 1000) * RATES.EastLansingCity.current;
 
     // Update comparison table
     document.getElementById('bathCurrentRate').textContent = RATES.bath.current.toFixed(4);
@@ -85,6 +89,8 @@ function calculate() {
     document.getElementById('dewittCityTax').textContent = formatCurrency(dewittCityTax);
     document.getElementById('meridianRate').textContent = RATES.meridian.current.toFixed(4);
     document.getElementById('meridianTax').textContent = formatCurrency(meridianTax);
+    document.getElementById('ELCityRate').textContent = RATES.ELCity.current.toFixed(4);
+    document.getElementById('ELCityTax').textContent = formatCurrency(ELCityTax);
 
     // Show results
     resultsSection.style.display = 'block';
