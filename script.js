@@ -79,6 +79,7 @@ function calculate() {
     const elcityTax = (taxableValue / 1000) * RATES.elcity.current;
 
     // Update comparison table
+    document.getElementById('dewittTwpRate').textContent = RATES.dewittTwp.current.toFixed(4);
     document.getElementById('dewittTwpTax').textContent = formatCurrency(dewittTwpTax);
     document.getElementById('dewittCityRate').textContent = RATES.dewittCity.current.toFixed(4);
     document.getElementById('dewittCityTax').textContent = formatCurrency(dewittCityTax);
