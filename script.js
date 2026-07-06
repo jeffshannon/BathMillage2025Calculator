@@ -1,8 +1,41 @@
-// Millage rates - Update these with the actual values from bathmillage2026.com
-// These are placeholder values - replace with actual rates
-const RATES = {
-    current: 3.5348, // Current millage rate (mills per $1,000)
-    proposed: 5 // Proposed millage rate (mills per $1,000)
+// Millage rate inputs for multiple municipalities
+const municipalities = {
+    bath: {
+        name: 'Bath Township',
+        currentRateInput: 'bathCurrentRate',
+        proposedRateInput: 'bathProposedRate',
+        currentTaxDisplay: 'bathCurrentTax',
+        proposedTaxDisplay: 'bathProposedTax',
+        differenceDisplay: 'bathDifference',
+        monthlyDisplay: 'bathMonthly'
+    },
+    dewittTwp: {
+        name: 'DeWitt Township',
+        currentRateInput: 'dewittTwpCurrentRate',
+        proposedRateInput: 'dewittTwpProposedRate',
+        currentTaxDisplay: 'dewittTwpCurrentTax',
+        proposedTaxDisplay: 'dewittTwpProposedTax',
+        differenceDisplay: 'dewittTwpDifference',
+        monthlyDisplay: 'dewittTwpMonthly'
+    },
+    dewittCity: {
+        name: 'DeWitt City',
+        currentRateInput: 'dewittCityCurrentRate',
+        proposedRateInput: 'dewittCityProposedRate',
+        currentTaxDisplay: 'dewittCityCurrentTax',
+        proposedTaxDisplay: 'dewittCityProposedTax',
+        differenceDisplay: 'dewittCityDifference',
+        monthlyDisplay: 'dewittCityMonthly'
+    },
+    meridian: {
+        name: 'Meridian Township',
+        currentRateInput: 'meridianCurrentRate',
+        proposedRateInput: 'meridianProposedRate',
+        currentTaxDisplay: 'meridianCurrentTax',
+        proposedTaxDisplay: 'meridianProposedTax',
+        differenceDisplay: 'meridianDifference',
+        monthlyDisplay: 'meridianMonthly'
+    }
 };
 
 // DOM Elements
@@ -10,16 +43,9 @@ const taxableValueInput = document.getElementById('taxableValue');
 const calculateBtn = document.getElementById('calculateBtn');
 const resetBtn = document.getElementById('resetBtn');
 const resultsSection = document.getElementById('resultsSection');
-const currentRateDisplay = document.getElementById('currentRate');
-const proposedRateDisplay = document.getElementById('proposedRate');
-const currentTaxDisplay = document.getElementById('currentTax');
-const proposedTaxDisplay = document.getElementById('proposedTax');
-const taxDifferenceDisplay = document.getElementById('taxDifference');
-const monthlyDifferenceDisplay = document.getElementById('monthlyDifference');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    displayRates();
     taxableValueInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             calculate();
@@ -27,22 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Display current rates
-function displayRates() {
-    if (RATES.current === 0 || RATES.proposed === 0) {
-        currentRateDisplay.textContent = 'N/A';
-        proposedRateDisplay.textContent = 'N/A';
-        currentRateDisplay.parentElement.style.opacity = '0.5';
-        proposedRateDisplay.parentElement.style.opacity = '0.5';
-    } else {
-        currentRateDisplay.textContent = RATES.current.toFixed(3);
-        proposedRateDisplay.textContent = RATES.proposed.toFixed(3);
-        currentRateDisplay.parentElement.style.opacity = '1';
-        proposedRateDisplay.parentElement.style.opacity = '1';
-    }
-}
-
-// Calculate taxes
+// Calculate taxes for all municipalities
 function calculate() {
     const taxableValue = parseFloat(taxableValueInput.value);
 
@@ -52,30 +63,49 @@ function calculate() {
         return;
     }
 
-    if (RATES.current === 0 || RATES.proposed === 0) {
-        alert('Millage rates are not yet configured. Please check back soon.');
+    // Check if any rates have been entered
+    let anyRateEntered = false;
+    for (let key in municipalities) {
+        const currentRate = parseFloat(document.getElementById(municipalities[key].currentRateInput).value) || 0;
+        const proposedRate = parseFloat(document.getElementById(municipalities[key].proposedRateInput).value) || 0;
+        if (currentRate > 0 || proposedRate > 0) {
+            anyRateEntered = true;
+            break;
+        }
+    }
+
+    if (!anyRateEntered) {
+        alert('Please enter at least one millage rate to calculate');
         return;
     }
 
-    // Calculate annual taxes
-    const currentTax = (taxableValue / 1000) * RATES.current;
-    const proposedTax = (taxableValue / 1000) * RATES.proposed;
-    const annualDifference = proposedTax - currentTax;
-    const monthlyDifference = annualDifference / 12;
+    // Calculate for each municipality
+    for (let key in municipalities) {
+        const muni = municipalities[key];
+        const currentRate = parseFloat(document.getElementById(muni.currentRateInput).value) || 0;
+        const proposedRate = parseFloat(document.getElementById(muni.proposedRateInput).value) || 0;
 
-    // Display results
-    currentTaxDisplay.textContent = formatCurrency(currentTax);
-    proposedTaxDisplay.textContent = formatCurrency(proposedTax);
-    taxDifferenceDisplay.textContent = formatCurrency(annualDifference);
-    monthlyDifferenceDisplay.textContent = formatCurrency(monthlyDifference);
+        // Calculate annual taxes
+        const currentTax = (taxableValue / 1000) * currentRate;
+        const proposedTax = (taxableValue / 1000) * proposedRate;
+        const annualDifference = proposedTax - currentTax;
+        const monthlyDifference = annualDifference / 12;
 
-    // Update difference display color based on positive/negative
-    if (annualDifference > 0) {
-        taxDifferenceDisplay.style.color = '#d32f2f'; // Red for increase
-    } else if (annualDifference < 0) {
-        taxDifferenceDisplay.style.color = '#388e3c'; // Green for decrease
-    } else {
-        taxDifferenceDisplay.style.color = '#666'; // Gray for no change
+        // Display results
+        document.getElementById(muni.currentTaxDisplay).textContent = formatCurrency(currentTax);
+        document.getElementById(muni.proposedTaxDisplay).textContent = formatCurrency(proposedTax);
+        document.getElementById(muni.differenceDisplay).textContent = formatCurrency(annualDifference);
+        document.getElementById(muni.monthlyDisplay).textContent = formatCurrency(monthlyDifference);
+
+        // Update difference color based on positive/negative
+        const differenceCell = document.getElementById(muni.differenceDisplay);
+        if (annualDifference > 0) {
+            differenceCell.style.color = '#d32f2f'; // Red for increase
+        } else if (annualDifference < 0) {
+            differenceCell.style.color = '#388e3c'; // Green for decrease
+        } else {
+            differenceCell.style.color = '#666'; // Gray for no change
+        }
     }
 
     resultsSection.style.display = 'block';
@@ -86,6 +116,13 @@ function calculate() {
 function reset() {
     taxableValueInput.value = '';
     resultsSection.style.display = 'none';
+    
+    // Clear all rate inputs
+    for (let key in municipalities) {
+        document.getElementById(municipalities[key].currentRateInput).value = '';
+        document.getElementById(municipalities[key].proposedRateInput).value = '';
+    }
+    
     taxableValueInput.focus();
 }
 
