@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bath Millage 2026 Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bath Millage 2026 Calculator</h1>
+            <p class="subtitle">Calculate your property tax difference for the proposed millage increase</p>
+        </header>
+
+        <div class="calculator">
+            <div class="input-section">
+                <label for="taxableValue">Your Home's Taxable Value ($)</label>
+                <input 
+                    type="number" 
+                    id="taxableValue" 
+                    placeholder="e.g., 150000" 
+                    min="0" 
+                    step="1000"
+                >
+                <small class="help-text">Enter your home's assessed/taxable value</small>
+            </div>
+
+            <div class="rates-section">
+                <div class="rate-box">
+                    <h3>Current Millage Rate</h3>
+                    <div class="rate-value" id="currentRate">Loading...</div>
+                    <small class="rate-label">mills per $1,000 of value</small>
+                </div>
+
+                <div class="rate-box">
+                    <h3>Proposed Millage Rate</h3>
+                    <div class="rate-value" id="proposedRate">Loading...</div>
+                    <small class="rate-label">mills per $1,000 of value</small>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="result-box">
+                    <span class="result-label">Current Annual Tax:</span>
+                    <span class="result-amount" id="currentTax">$0.00</span>
+                </div>
+
+                <div class="result-box">
+                    <span class="result-label">Proposed Annual Tax:</span>
+                    <span class="result-amount" id="proposedTax">$0.00</span>
+                </div>
+
+                <div class="result-box highlight">
+                    <span class="result-label">Annual Difference:</span>
+                    <span class="result-amount difference" id="taxDifference">$0.00</span>
+                </div>
+
+                <div class="result-box">
+                    <span class="result-label">Monthly Difference:</span>
+                    <span class="result-amount" id="monthlyDifference">$0.00</span>
+                </div>
+            </div>
+
+            <button id="calculateBtn" class="calculate-btn">Calculate</button>
+            <button id="resetBtn" class="reset-btn">Reset</button>
+        </div>
+
+        <footer class="info-section">
+            <p class="info-text">
+                For more information about the proposed millage increase, visit 
+                <a href="https://bathmillage2026.com" target="_blank">bathmillage2026.com</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
